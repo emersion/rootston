@@ -208,6 +208,10 @@ void view_arrange_maximized(struct roots_view *view) {
 	}
 
 	struct wlr_output *output = view_get_output(view);
+	if (!output) {
+		return;
+	}
+
 	struct roots_output *roots_output = output->data;
 	struct wlr_box *output_box =
 		wlr_output_layout_get_box(view->desktop->layout, output);
