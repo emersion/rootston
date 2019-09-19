@@ -1357,7 +1357,8 @@ void roots_seat_set_focus(struct roots_seat *seat, struct roots_view *view) {
 	}
 
 	struct roots_view *prev_focus = roots_seat_get_focus(seat);
-	if (view == prev_focus) {
+
+	if (view && view == prev_focus) {
 		return;
 	}
 
@@ -1447,6 +1448,8 @@ void roots_seat_set_focus_layer(struct roots_seat *seat,
 				struct roots_seat_view *first_seat_view = wl_container_of(
 					seat->views.next, first_seat_view, link);
 				roots_seat_set_focus(seat, first_seat_view->view);
+			} else {
+				roots_seat_set_focus(seat, NULL);
 			}
 		}
 		return;
