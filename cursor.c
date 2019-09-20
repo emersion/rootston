@@ -535,10 +535,9 @@ void roots_cursor_handle_focus_change(struct roots_cursor *cursor,
 void roots_cursor_handle_constraint_commit(struct roots_cursor *cursor) {
 	struct roots_desktop *desktop = cursor->seat->input->server->desktop;
 
-	struct roots_view *view;
 	double sx, sy;
 	struct wlr_surface *surface = desktop_surface_at(desktop,
-			cursor->cursor->x, cursor->cursor->y, &sx, &sy, &view);
+			cursor->cursor->x, cursor->cursor->y, &sx, &sy, NULL);
 	// This should never happen but views move around right when they're
 	// created from (0, 0) to their actual coordinates.
 	if (surface != cursor->active_constraint->surface) {
