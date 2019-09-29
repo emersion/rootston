@@ -5,6 +5,12 @@
 #include <wlr/types/wlr_surface.h>
 #include <wlr/types/wlr_layer_shell_v1.h>
 
+enum layer_parent {
+	LAYER_PARENT_LAYER,
+	LAYER_PARENT_POPUP,
+	LAYER_PARENT_SUBSURFACE
+};
+
 struct roots_layer_surface {
 	struct wlr_layer_surface_v1 *layer_surface;
 	struct wl_list link;

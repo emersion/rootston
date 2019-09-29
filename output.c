@@ -117,6 +117,24 @@ void output_surface_for_each_surface(struct roots_output *output,
 		output_for_each_surface_iterator, &data);
 }
 
+void output_xdg_surface_for_each_surface(struct roots_output *output,
+		struct wlr_xdg_surface *xdg_surface, double ox, double oy,
+		roots_surface_iterator_func_t iterator, void *user_data) {
+	struct surface_iterator_data data = {
+		.user_iterator = iterator,
+		.user_data = user_data,
+		.output = output,
+		.ox = ox,
+		.oy = oy,
+		.width = xdg_surface->surface->current.width,
+		.height = xdg_surface->surface->current.height,
+		.rotation = 0
+	};
+
+	wlr_xdg_surface_for_each_surface(xdg_surface,
+		output_for_each_surface_iterator, &data);
+}
+
 void output_view_for_each_surface(struct roots_output *output,
 		struct roots_view *view, roots_surface_iterator_func_t iterator,
 		void *user_data) {
