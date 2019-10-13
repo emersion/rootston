@@ -59,6 +59,9 @@ sources = [
 wayland_server = dependency('wayland-server')
 wayland_protos = dependency('wayland-protocols', version: '>=1.17')
 pixman         = dependency('pixman-1')
+libinput       = dependency('libinput')
+xkbcommon      = dependency('xkbcommon')
+math           = cc.find_library('m')
 
 # Try first to find wlroots as a subproject, then as a system dependency
 wlroots_version = ['>=0.8.1', '<0.9.0']
@@ -93,5 +96,5 @@ executable(
 	'rootston',
 	sources,
 	include_directories: rootston_inc,
-	dependencies: [wlroots, protos, pixman],
+	dependencies: [wlroots, protos, pixman, wayland_server, libinput, xkbcommon, math],
 )
