@@ -1,0 +1,13 @@
+image: archlinux
+packages:
+  - meson
+  - wlroots-git
+sources:
+  - https://github.com/emersion/rootston
+tasks:
+  - setup: |
+      cd rootston
+      meson build/
+  - build: |
+      cd rootston
+      ninja -C build/
