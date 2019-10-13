@@ -61,7 +61,7 @@ wayland_protos = dependency('wayland-protocols', version: '>=1.17')
 pixman         = dependency('pixman-1')
 
 # Try first to find wlroots as a subproject, then as a system dependency
-wlroots_version = '>=0.6'
+wlroots_version = ['>=0.8.1', '<0.9.0']
 wlroots_proj = subproject(
 	'wlroots',
 	default_options: ['rootston=false', 'examples=false'],
