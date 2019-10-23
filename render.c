@@ -243,6 +243,8 @@ static bool scan_out_fullscreen_view(struct roots_output *output) {
 		return false;
 	}
 
+	wlr_presentation_surface_sampled(desktop->presentation, surface);
+
 	if (!wlr_output_attach_buffer(wlr_output, surface->buffer)) {
 		return false;
 	}
