@@ -296,7 +296,16 @@ static void handle_surface_commit(struct wl_listener *listener, void *data) {
 			update_cursors(layer, &output->desktop->server->input->seats);
 		}
 
-		if (memcmp(&old_geo, &layer->geo, sizeof(struct wlr_box)) != 0) {
+		bool geo_changed =
+			memcmp(&old_geo, &layer->geo, sizeof(struct wlr_box)) != 0;
+		bool layer_changed = layer->layer != layer_surface->current.layer;
+		if (layer_changed) {
+			wl_list_remove(&layer->link);
+			wl_list_insert(&output->layers[layer_surface->current.layer],
+				&layer->link);
+			layer->layer = layer_surface->current.layer;
+		}
+		if (geo_changed || layer_changed) {
 			output_damage_whole_local_surface(output, layer_surface->surface,
 					old_geo.x, old_geo.y);
 			output_damage_whole_local_surface(output, layer_surface->surface,
@@ -435,7 +444,9 @@ void handle_layer_shell_surface(struct wl_listener *listener, void *data) {
 		wl_container_of(listener, desktop, layer_shell_surface);
 	wlr_log(WLR_DEBUG, "new layer surface: namespace %s layer %d anchor %d "
 			"size %dx%d margin %d,%d,%d,%d",
-		layer_surface->namespace, layer_surface->layer, layer_surface->layer,
+		layer_surface->namespace,
+		layer_surface->client_pending.layer,
+		layer_surface->client_pending.anchor,
 		layer_surface->client_pending.desired_width,
 		layer_surface->client_pending.desired_height,
 		layer_surface->client_pending.margin.top,
@@ -493,7 +504,8 @@ void handle_layer_shell_surface(struct wl_listener *listener, void *data) {
 	layer_surface->data = roots_surface;
 
 	struct roots_output *output = layer_surface->output->data;
-	wl_list_insert(&output->layers[layer_surface->layer], &roots_surface->link);
+	wl_list_insert(&output->layers[layer_surface->current.layer],
+		&roots_surface->link);
 
 	// Temporarily set the layer's current state to client_pending
 	// So that we can easily arrange it
