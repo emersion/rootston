@@ -99,7 +99,8 @@ static void render_surface_iterator(struct roots_output *output,
 	render_texture(wlr_output, output_damage,
 		texture, &box, matrix, rotation, alpha);
 
-	wlr_presentation_surface_sampled(output->desktop->presentation, surface);
+	wlr_presentation_surface_sampled_on_output(output->desktop->presentation,
+		surface, wlr_output);
 }
 
 static void render_decorations(struct roots_output *output,
