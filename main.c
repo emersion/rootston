@@ -43,7 +43,6 @@ int main(int argc, char **argv) {
 	}
 
 	wlr_log(WLR_INFO, "Running compositor on wayland display '%s'", socket);
-	setenv("_WAYLAND_DISPLAY", socket, true);
 
 	if (!wlr_backend_start(server.backend)) {
 		wlr_log(WLR_ERROR, "Failed to start backend");
@@ -53,6 +52,7 @@ int main(int argc, char **argv) {
 	}
 
 	setenv("WAYLAND_DISPLAY", socket, true);
+
 #if WLR_HAS_XWAYLAND
 	if (server.desktop->xwayland != NULL) {
 		struct roots_seat *xwayland_seat =
