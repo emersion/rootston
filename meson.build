@@ -52,7 +52,6 @@ sources = [
 	'text_input.c',
 	'view.c',
 	'virtual_keyboard.c',
-	'xdg_shell_v6.c',
 	'xdg_shell.c',
 ]
 
@@ -64,7 +63,7 @@ xkbcommon      = dependency('xkbcommon')
 math           = cc.find_library('m')
 
 # Try first to find wlroots as a subproject, then as a system dependency
-wlroots_version = ['>=0.11.0', '<0.12.0']
+wlroots_version = ['>=0.12.0', '<0.13.0']
 wlroots_proj = subproject(
 	'wlroots',
 	default_options: ['rootston=false', 'examples=false'],

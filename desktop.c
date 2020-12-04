@@ -23,7 +23,6 @@
 #include <wlr/types/wlr_xcursor_manager.h>
 #include <wlr/types/wlr_xdg_output_v1.h>
 #include <wlr/types/wlr_xdg_output_v1.h>
-#include <wlr/types/wlr_xdg_shell_v6.h>
 #include <wlr/types/wlr_xdg_shell.h>
 #include <wlr/util/log.h>
 #include "layers.h"
@@ -48,12 +47,6 @@ static bool view_at(struct roots_view *view, double lx, double ly,
 	double _sx, _sy;
 	struct wlr_surface *_surface = NULL;
 	switch (view->type) {
-	case ROOTS_XDG_SHELL_V6_VIEW:;
-		struct roots_xdg_surface_v6 *xdg_surface_v6 =
-			roots_xdg_surface_v6_from_view(view);
-		_surface = wlr_xdg_surface_v6_surface_at(xdg_surface_v6->xdg_surface_v6,
-			view_sx, view_sy, &_sx, &_sy);
-		break;
 	case ROOTS_XDG_SHELL_VIEW:;
 		struct roots_xdg_surface *xdg_surface =
 			roots_xdg_surface_from_view(view);
@@ -307,11 +300,6 @@ struct roots_desktop *desktop_create(struct roots_server *server,
 
 	desktop->compositor = wlr_compositor_create(server->wl_display,
 		server->renderer);
-
-	desktop->xdg_shell_v6 = wlr_xdg_shell_v6_create(server->wl_display);
-	wl_signal_add(&desktop->xdg_shell_v6->events.new_surface,
-		&desktop->xdg_shell_v6_surface);
-	desktop->xdg_shell_v6_surface.notify = handle_xdg_shell_v6_surface;
 
 	desktop->xdg_shell = wlr_xdg_shell_create(server->wl_display);
 	wl_signal_add(&desktop->xdg_shell->events.new_surface,
