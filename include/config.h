@@ -2,6 +2,7 @@
 #define ROOTSTON_CONFIG_H
 
 #include <xf86drmMode.h>
+#include <xkbcommon/xkbcommon.h>
 #include <wlr/types/wlr_input_device.h>
 #include <wlr/types/wlr_switch.h>
 #include <wlr/types/wlr_output_layout.h>
